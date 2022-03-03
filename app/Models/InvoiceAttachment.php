@@ -12,4 +12,6 @@ class InvoiceAttachment extends Model
     protected $fillable = ['file_name', 'invoice_number', 'created_by', 'invoice_id'];
   protected  $table ='invoice_attachment';
 
+
+
 }

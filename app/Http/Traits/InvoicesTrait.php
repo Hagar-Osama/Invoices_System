@@ -7,4 +7,9 @@ trait InvoicesTrait {
     {
         return $this->invoiceModel::get();
     }
+
+    public function getInvoice($invoiceId)
+    {
+        return $this->invoiceModel::where('id', $invoiceId)->first();
+    }
 }

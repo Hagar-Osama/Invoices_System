@@ -1,9 +1,16 @@
 <?php
 namespace App\Http\Interfaces;
 
+use Illuminate\Http\Request;
+
 interface InvoiceAttachmentInterface {
 
-    public function index();
+    public function openFile($invoiceNumber, $fileName);
 
-    public function store($request);
+    public function downloadFile($invoiceNumber, $fileName);
+
+    public function destroy($request);
+
+
+
 }

@@ -3,5 +3,5 @@ namespace App\Http\Interfaces;
 
 interface InvoiceDetailsInterface {
 
-    public function index($id);
+    public function index($invoiceId);
 }

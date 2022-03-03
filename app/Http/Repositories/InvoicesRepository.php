@@ -10,7 +10,9 @@ use App\Models\Department;
 use App\Models\Invoice;
 use App\Models\InvoiceAttachment;
 use App\Models\InvoiceDetail;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use tidy;
 
 class InvoicesRepository implements InvoicesInterface
 {
@@ -85,9 +87,10 @@ class InvoicesRepository implements InvoicesInterface
         if ($request->hasFile('file')) {
             //after adding the invoiceDetails we should get the latest id entered in the invoices table
         $invoice_id = $this->invoiceModel::latest()->first()->id;
+        $invoice_number = $request->invoice_number;
             $file = $request->file('file');
-            $fileName = $request->invoice_number. '.' .$file->getClientOriginalExtension();
-            $this->uploadFiles($file, 'invoices',$fileName);
+            $fileName = $file->getClientOriginalName();
+            $this->uploadFiles($file, 'Attachments/'. $invoice_number,$fileName);
             $this->invoiceAttachmentModel::create([
                 'file_name'=> $fileName,
                 'invoice_number' => $request->invoice_number,
@@ -95,6 +98,7 @@ class InvoicesRepository implements InvoicesInterface
                 'created_by' => auth()->user()->name
 
             ]);
+
 
         }
         return redirect(route('invoices.index'))->with('success', 'Invoice Has Been Added Successfully');

@@ -1,19 +1,31 @@
 <?php
 namespace App\Http\Traits;
 
+use Illuminate\Support\Facades\Storage;
+
 trait InvoiceAttachmentTrait {
 
     public function uploadFiles($file, $path, $fileName, $oldfile = null)
     {
-        $file->move(public_path('attachments/'.$path), $fileName);
+        //this code without the storage link
+       $file->move(public_path($path), $fileName);
+
+       //this code when storage link is created
+    //    Storage::disk('public')->put($path, $file);//$path= attachments, $file= file from the request
         if(! is_null($oldfile)) {
             unlink(public_path($oldfile));
         }
     }
 
-    public function getInvoiceAttachment($invoiceId)
+    public function getAllInvoiceAttachment($invoiceId)
     {
-        return $this->invoiceDetailsModel::where('invoice_id', $invoiceId)->first();
+        return $this->invoiceAttachmentModel::where('invoice_id', $invoiceId)->get();
+
+    }
+
+    public function getInvoiceAttachmentById($fileId)
+    {
+        return $this->invoiceAttachmentModel::find($fileId);
 
     }
 }

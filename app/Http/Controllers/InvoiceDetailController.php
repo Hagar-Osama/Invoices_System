@@ -15,8 +15,8 @@ class InvoiceDetailController extends Controller
 
     }
 
-    public function index($id)
+    public function index($invoiceId)
     {
-        return $this->invoiceDetailsInterface->index($id);
+        return $this->invoiceDetailsInterface->index($invoiceId);
     }
 }

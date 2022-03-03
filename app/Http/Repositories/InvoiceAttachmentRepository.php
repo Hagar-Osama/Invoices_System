@@ -1,9 +1,13 @@
 <?php
+
 namespace App\Http\Repositories;
 
 use App\Http\Interfaces\InvoiceAttachmentInterface;
+use App\Http\Requests\DeleteInvoiceAttachmentRequest;
 use App\Http\Traits\InvoiceAttachmentTrait;
 use App\Models\InvoiceAttachment;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class InvoiceAttachmentRepository implements InvoiceAttachmentInterface
 {
@@ -14,15 +18,34 @@ class InvoiceAttachmentRepository implements InvoiceAttachmentInterface
         $this->invoiceAttachmentModel = $invoiceAttachment;
     }
 
-    public function index()
+    public function openFile($invoiceNumber, $fileName)
     {
-        return view('');
+        //public_path = get the path to public folder
+        // $file = public_path( 'Attachments/'.$invoiceNumber. '/'. $fileName);
+        //get the path to the storage
+        $file = Storage::disk('public_uploads')->getDriver()->getAdapter()->applyPathPrefix($invoiceNumber. '/' . $fileName);
+        return response()->file($file);
+
     }
 
-    public function store($request)
+    public function downloadFile($invoiceNumber, $fileName)
     {
-        $this->invoiceAttachmentModel::create([
+        //public_path = get the path to public folder
+        // $file = public_path( 'Attachments/'.$invoiceNumber. '/'. $fileName);
+        //get the path to the storage
+        $file = Storage::disk('public_uploads')->getDriver()->getAdapter()->applyPathPrefix($invoiceNumber. '/' . $fileName);
+        return response()->download($file);
 
-        ]);
     }
+
+    public function destroy($request)
+    {
+        $file = $this->getInvoiceAttachmentById($request->id_file);
+        //to delete it from database
+        $file->delete();
+        Storage::disk('public_uploads')->delete(request()->invoiceNumber. '/' . request()->fileName);
+
+        return redirect()->back()->with('success', 'file deleted successfully');
+    }
+
 }

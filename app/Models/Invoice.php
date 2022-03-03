@@ -18,6 +18,6 @@ class Invoice extends Model
 
     public function invoiceDetails()
     {
-        return $this->hasOne(InvoiceDetail::class);
+        return $this->hasMany(InvoiceDetail::class);
     }
 }

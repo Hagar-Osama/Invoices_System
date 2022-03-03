@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Interfaces\InvoiceAttachmentInterface;
 use App\Http\Requests\AddInvoiceAttachmentRequest;
+use App\Http\Requests\DeleteInvoiceAttachmentRequest;
 use Illuminate\Http\Request;
 
 class InvoiceAttachmentController extends Controller
@@ -16,13 +17,24 @@ class InvoiceAttachmentController extends Controller
 
     }
 
-    public function index()
+    public function openFile($invoiceNumber, $fileName)
     {
-        return $this->invoiceAttachmentInterface->index();
+        return $this->invoiceAttachmentInterface->openfile($invoiceNumber, $fileName);
+
     }
 
-    public function store( $request)
+    public function downloadFile($invoiceNumber, $fileName)
     {
-        return $this->invoiceAttachmentInterface->store($request);
+        return $this->invoiceAttachmentInterface->downloadfile($invoiceNumber, $fileName);
+
     }
+
+    public function destroy(DeleteInvoiceAttachmentRequest $request)
+    {
+        return $this->invoiceAttachmentInterface->destroy($request);
+    }
+
+
+
+
 }
