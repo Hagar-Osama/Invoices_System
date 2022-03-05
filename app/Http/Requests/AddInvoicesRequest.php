@@ -38,7 +38,7 @@ class AddInvoicesRequest extends FormRequest
             'total' => 'required',
             'note' => 'required',
             //invoiceAttachment validation
-            'file_name' => 'image|mimes:png,jpg,svg,gif,pdf|max:2048',
+            'file_name' => 'file|mimes:png,jpg,svg,gif,pdf|max:2048',
 
 
         ];

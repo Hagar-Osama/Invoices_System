@@ -13,7 +13,7 @@ class UpdateInvoicesRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,21 @@ class UpdateInvoicesRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+             //invoices and invoiceDetails validation
+             'invoice_id' => 'required|exists:invoices,id',
+             'invoice_number' => 'required',
+             'invoice_date' => 'required',
+             'due_date' => 'required',
+             'product' => 'required',
+             'collection_amount' => 'required',
+             'commission_value' => 'required',
+             'department_id' => 'required|exists:departments,id',
+             'discount' => 'required',
+             'tax_rate' => 'required',
+             'tax_value' => 'required',
+             'total' => 'required',
+             'note' => 'required',
+
         ];
     }
 }

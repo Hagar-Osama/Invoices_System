@@ -31,12 +31,16 @@ Route::group(['middleware' => 'auth'], function () {
      Route::get('/invoices/create', [InvoicesController::class, 'create'])->name('invoices.create');
      Route::get('/section/{id}', [InvoicesController::class, 'getProduct']);
      Route::post('/invoices/store', [InvoicesController::class, 'store'])->name('invoices.store');
+     Route::get('invoice/edit/{id}', [InvoicesController::class, 'edit'])->name('invoice.edit');
+     Route::put('invoices/update', [InvoicesController::class, 'update'])->name('invoice.update');
+     Route::delete('invoice/delete', [InvoicesController::class, 'destroy'])->name('invoice.destroy');
       //invoice Details Route
     Route::get('/invoiceDetails/{invoiceId}', [InvoiceDetailController::class, 'index'])->name('invoiceDetails.index');
     //invoice Attachment Routes
     Route::get('invoiceAttachments/{invoiceNumber}/{fileName}', [InvoiceAttachmentController::class, 'openFile'])->name('openFile');
     Route::get('invoiceAttachment/{invoiceNumber}/{fileName}', [InvoiceAttachmentController::class, 'downloadFile'])->name('downloadFile');
     Route::delete('attachment/delete', [InvoiceAttachmentController::class, 'destroy'])->name('attachment.destroy');
+    Route::post('invoiceAttachment/store', [InvoiceAttachmentController::class, 'store'])->name('attachment.store');
 
     ///Department Routes///
     Route::get('departments', [DepartmentController::class, 'index'])->name('departments.index');

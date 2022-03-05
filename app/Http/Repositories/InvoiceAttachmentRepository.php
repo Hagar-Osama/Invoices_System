@@ -6,7 +6,6 @@ use App\Http\Interfaces\InvoiceAttachmentInterface;
 use App\Http\Requests\DeleteInvoiceAttachmentRequest;
 use App\Http\Traits\InvoiceAttachmentTrait;
 use App\Models\InvoiceAttachment;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
 class InvoiceAttachmentRepository implements InvoiceAttachmentInterface
@@ -43,9 +42,28 @@ class InvoiceAttachmentRepository implements InvoiceAttachmentInterface
         $file = $this->getInvoiceAttachmentById($request->id_file);
         //to delete it from database
         $file->delete();
+        //to delete from the local path
         Storage::disk('public_uploads')->delete(request()->invoiceNumber. '/' . request()->fileName);
 
         return redirect()->back()->with('success', 'file deleted successfully');
+    }
+
+    public function store($request)
+    {
+        if ($request->hasFile('file')) {
+            $file = $request->file('file');
+            $fileName = $file->getClientOriginalName();
+            $this->uploadFiles($file, 'Attachments/'. $request->invoice_number, $fileName);
+            $this->invoiceAttachmentModel::create([
+                'file_name'=> $fileName,
+                'invoice_number' => $request->invoice_number,
+                'invoice_id'=>$request->invoice_id,
+                'created_by' => auth()->user()->name
+
+            ]);
+        }
+        return redirect()->back()->with('success', 'file Added successfully');
+
     }
 
 }

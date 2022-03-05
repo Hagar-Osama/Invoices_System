@@ -34,6 +34,11 @@ class InvoiceAttachmentController extends Controller
         return $this->invoiceAttachmentInterface->destroy($request);
     }
 
+    public function store(AddInvoiceAttachmentRequest $request)
+    {
+        return $this->invoiceAttachmentInterface->store($request);
+    }
+
 
 
 

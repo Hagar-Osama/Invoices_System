@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class DeleteInvoicesRequest extends FormRequest
+class AddInvoiceAttachmentRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,7 +24,10 @@ class DeleteInvoicesRequest extends FormRequest
     public function rules()
     {
         return [
+            'file_name' => 'file|mimes:png,jpg,svg,gif,pdf|max:2048',
+            'invoice_number' => 'required',
             'invoice_id' => 'required|exists:invoices,id'
+
         ];
     }
 }

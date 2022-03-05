@@ -159,57 +159,78 @@
                                     </div>
 
                                     <div class="tab-pane" id="tab13">
-                                        <div class="table-responsive mt-15">
-                                            <table class="table center-aligned-table mb-0 table-hover" style="text-align:center">
-                                                <thead>
-                                                    <tr>
-                                                        <th class="border-bottom-0">#</th>
-                                                        <th class="border-bottom-0">Invoice Number</th>
-                                                        <th class="border-bottom-0">File Name</th>
-                                                        <th class="border-bottom-0">Created By</th>
-                                                        <th class="border-bottom-0">Actions</th>
+                                        <!--Attachments-->
+                                        <div class="card card-statistics">
+                                            <div class="card-body">
+                                                <h5 class="card-title"> Adding Attachment</h5>
+                                                <form method="post" action="{{ route('attachment.store') }}" enctype="multipart/form-data">
+                                                    @csrf
+                                                    <div class="custom-file">
+                                                        <p class="text-danger">* File Formate pdf, jpeg ,.jpg , png </p>
+
+                                                        <div class="col-sm-12 col-md-12">
+                                                            <input type="file" name="file" class="dropify" accept=".pdf,.jpg, .png, image/jpeg, image/png" data-height="70" />
+                                                        </div><br> <input type="hidden" id="customFile" name="invoice_number" value="{{ $invoice->invoice_number }}">
+                                                        <input type="hidden" id="invoice_id" name="invoice_id" value="{{ $invoice->id }}">
+
+                                                    </div>
+                                                    <button type="submit" class="btn btn-primary btn-sm " name="uploadedFile">Confirm</button>
+                                                </form>
+                                            </div>
+                                            <br>
+                                            <div class="table-responsive mt-15">
+                                                <table class="table center-aligned-table mb-0 table-hover" style="text-align:center">
+                                                    <thead>
+                                                        <tr>
+                                                            <th class="border-bottom-0">#</th>
+                                                            <th class="border-bottom-0">Invoice Number</th>
+                                                            <th class="border-bottom-0">File Name</th>
+                                                            <th class="border-bottom-0">Created By</th>
+                                                            <th class="border-bottom-0">Actions</th>
 
 
 
 
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <?php $counter = 1; ?>
-                                                    @isset($invoiceAttachments)
-                                                    @foreach($invoiceAttachments as $invoiceAttachment)
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <?php $counter = 1; ?>
+                                                        @isset($invoiceAttachments)
+                                                        @foreach($invoiceAttachments as $invoiceAttachment)
 
-                                                    <tr>
-                                                        <td>{{$counter++}}</td>
-                                                        <td>{{$invoiceAttachment->invoice_number}}</td>
-                                                        <td>{{$invoiceAttachment->file_name}}</td>
-                                                        <td>{{$invoiceAttachment->created_by}}</td>
-                                                        <td colspan="2">
+                                                        <tr>
+                                                            <td>{{$counter++}}</td>
+                                                            <td>{{$invoiceAttachment->invoice_number}}</td>
+                                                            <td>{{$invoiceAttachment->file_name}}</td>
+                                                            <td>{{$invoiceAttachment->created_by}}</td>
+                                                            <td colspan="2">
 
-                                                            <a class="btn btn-outline-success btn-sm" href="{{ route('openFile', [$invoiceAttachment->invoice_number, $invoiceAttachment->file_name]) }}" role="button" target="_blank"><i class="fas fa-eye"></i>&nbsp;
-                                                                Open</a>
-                                                            <a class="btn btn-outline-info btn-sm" href="{{ route('downloadFile', [$invoiceAttachment->invoice_number, $invoiceAttachment->file_name]) }}" role="button" target="_blank"><i class="fas fa-download"></i>&nbsp;
-                                                                Download</a>
-                                                            <button class="btn btn-outline-danger btn-sm" data-toggle="modal" data-file_name="{{ $invoiceAttachment->file_name }}" data-invoice_number="{{ $invoiceAttachment->invoice_number }}" data-id_file="{{ $invoiceAttachment->id }}" data-target="#delete_file">Delete</button>
-                                                        </td>
+                                                                <a class="btn btn-outline-success btn-sm" href="{{ route('openFile', [$invoiceAttachment->invoice_number, $invoiceAttachment->file_name]) }}" role="button" target="_blank"><i class="fas fa-eye"></i>&nbsp;
+                                                                    Open</a>
+                                                                <a class="btn btn-outline-info btn-sm" href="{{ route('downloadFile', [$invoiceAttachment->invoice_number, $invoiceAttachment->file_name]) }}" role="button" target="_blank"><i class="fas fa-download"></i>&nbsp;
+                                                                    Download</a>
+                                                                <button class="btn btn-outline-danger btn-sm" data-toggle="modal" data-file_name="{{ $invoiceAttachment->file_name }}" data-invoice_number="{{ $invoiceAttachment->invoice_number }}" data-id_file="{{ $invoiceAttachment->id }}" data-target="#delete_file">Delete</button>
+
+                                                            </td>
 
 
 
-                                                    </tr>
-                                                    @endforeach
-                                                    @endisset
+                                                        </tr>
+                                                        @endforeach
+                                                        @endisset
 
-                                                </tbody>
-                                            </table>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+
                                         </div>
 
+
+
+                                        <!---Prism Pre code-->
+
+                                        <!---Prism Pre code-->
                                     </div>
-
-
-
-                                    <!---Prism Pre code-->
-
-                                    <!---Prism Pre code-->
                                 </div>
                             </div>
                         </div>
@@ -217,11 +238,10 @@
                 </div>
             </div>
         </div>
+        <!-- /div -->
+
+
     </div>
-    <!-- /div -->
-
-
-</div>
 
 </div>
 <!-- /row -->

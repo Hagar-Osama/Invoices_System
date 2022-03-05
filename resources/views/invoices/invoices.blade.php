@@ -10,8 +10,20 @@ Invoices
 <link href="{{URL::asset('assets/plugins/datatable/css/jquery.dataTables.min.css')}}" rel="stylesheet">
 <link href="{{URL::asset('assets/plugins/datatable/css/responsive.dataTables.min.css')}}" rel="stylesheet">
 <link href="{{URL::asset('assets/plugins/select2/css/select2.min.css')}}" rel="stylesheet">
+ <!--Internal   Notify -->
+ <link href="{{ URL::asset('assets/plugins/notify/css/notifIt.css') }}" rel="stylesheet" />
 @endsection
 @section('page-header')
+@if (session()->has('delete_invoice'))
+        <script>
+            window.onload = function() {
+                notif({
+                    msg: "Invoice Deleted Successfully",
+                    type: "success"
+                })
+            }
+        </script>
+    @endif
 <!-- breadcrumb -->
 <div class="breadcrumb-header justify-content-between">
     <div class="my-auto">
@@ -38,7 +50,7 @@ Invoices
 
             <div class="card-body">
                 <div class="table-responsive">
-                    <table id="example" class="table key-buttons text-md-nowrap">
+                    <table id="example1" class="table key-buttons text-md-nowrap" data-page-length='50' style="text-align: center">
                         <thead>
                             <tr>
                                 <th class="border-bottom-0">#</th>
@@ -51,17 +63,19 @@ Invoices
                                 <th class="border-bottom-0">Tax Rate</th>
                                 <th class="border-bottom-0">Tax Value</th>
                                 <th class="border-bottom-0">Total</th>
-                                <th class="border-bottom-0">Sataus</th>
+                                <th class="border-bottom-0">Status</th>
                                 <th class="border-bottom-0">Note</th>
+                                <th class="border-bottom-0">Actions</th>
+
                             </tr>
                         </thead>
                         <tbody>
-                            <?php $counter = 1;?>
+                            <?php $counter = 1; ?>
                             @isset($invoices)
                             @foreach($invoices as $invoice)
                             <tr>
                                 <td>{{$counter++}}</td>
-                                <td><a href ="{{route('invoiceDetails.index', [$invoice->id])}}">{{$invoice->invoice_number}}</a></td>
+                                <td><a href="{{route('invoiceDetails.index', [$invoice->id])}}">{{$invoice->invoice_number}}</a></td>
                                 <td>{{$invoice->invoice_date}}</td>
                                 <td>{{$invoice->due_date}}</td>
                                 <td>{{$invoice->product}}</td>
@@ -82,6 +96,15 @@ Invoices
 
                                 </td>
                                 <td>{{$invoice->note}}</td>
+                                <td>
+                                    <div class="dropdown">
+                                        <button aria-expanded="false" aria-haspopup="true" class="btn ripple btn-primary btn-sm" data-toggle="dropdown" type="button">Actions<i class="fas fa-caret-down ml-1"></i></button>
+                                        <div class="dropdown-menu tx-13">
+                                            <a class="dropdown-item" href=" {{ route('invoice.edit', [$invoice->id]) }}">Edit
+                                                Invoice</a>
+                                            <a class="dropdown-item" href="#" data-invoice_id="{{ $invoice->id }}" data-toggle="modal" data-target="#delete_invoice"><i class="text-danger fas fa-trash-alt"></i>&nbsp;&nbsp;Delete
+                                                Invoice</a>
+                                </td>
                             </tr>
                             @endforeach
                             @endisset
@@ -92,6 +115,32 @@ Invoices
         </div>
     </div>
     <!--/div-->
+
+    <!-- Delete Invoice  -->
+    <div class="modal fade" id="delete_invoice" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel"> Delete Invoice</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <form action="{{ route('invoice.destroy') }}" method="post">
+                        @method('Delete')
+                        @csrf
+                </div>
+                <div class="modal-body">
+                    Are You Sure You Want To Delete This?
+                    <input type="hidden" name="invoice_id" id="invoice_id" value="">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-danger">Confirm</button>
+                </div>
+                </form>
+            </div>
+        </div>
+    </div>
 
     <!--div-->
 </div>
@@ -121,4 +170,15 @@ Invoices
 <script src="{{URL::asset('assets/plugins/datatable/js/responsive.bootstrap4.min.js')}}"></script>
 <!--Internal  Datatable js -->
 <script src="{{URL::asset('assets/js/table-data.js')}}"></script>
+<!--Internal  Notify js -->
+<script src="{{ URL::asset('assets/plugins/notify/js/notifIt.js') }}"></script>
+<script src="{{ URL::asset('assets/plugins/notify/js/notifit-custom.js') }}"></script>
+<script>
+    $('#delete_invoice').on('show.bs.modal', function(event) {
+        var button = $(event.relatedTarget)
+        var invoice_id = button.data('invoice_id')
+        var modal = $(this)
+        modal.find('.modal-body #invoice_id').val(invoice_id);
+    })
+</script>
 @endsection

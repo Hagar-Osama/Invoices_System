@@ -12,4 +12,9 @@ trait InvoicesTrait {
     {
         return $this->invoiceModel::where('id', $invoiceId)->first();
     }
+
+    public function getInvoiceById($invoiceId)
+    {
+        return $this->invoiceModel::find($invoiceId);
+    }
 }

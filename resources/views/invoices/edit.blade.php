@@ -12,7 +12,7 @@
 <link rel="stylesheet" href="{{ URL::asset('assets/plugins/telephoneinput/telephoneinput-rtl.css') }}">
 @endsection
 @section('title')
-Adding Invoices
+Editing Invoice
 @stop
 
 @section('page-header')
@@ -21,7 +21,7 @@ Adding Invoices
     <div class="my-auto">
         <div class="d-flex">
             <h4 class="content-title mb-0 my-auto">Invoices</h4><span class="text-muted mt-1 tx-13 mr-2 mb-0">/
-                Adding Invoices
+                Editing Invoices
             </span>
         </div>
     </div>
@@ -47,24 +47,26 @@ Adding Invoices
     <div class="col-lg-12 col-md-12">
         <div class="card">
             <div class="card-body">
-                <form action="{{route('invoices.store')}}" method="post" enctype="multipart/form-data" autocomplete="off">
+                <form action="{{route('invoice.update')}}" method="post" enctype="multipart/form-data" autocomplete="off">
                     @csrf
+                    @method('PUT')
                     {{-- 1 --}}
 
                     <div class="row">
                         <div class="col">
                             <label for="inputName" class="control-label">Invoice Number</label>
-                            <input type="text" class="form-control" id="inputName" name="invoice_number" title="Enter Invoice Number" required>
+                            <input type="hidden" name="invoice_id" value="{{$invoice->id}}">
+                            <input type="text" class="form-control" id="inputName" name="invoice_number" value="{{$invoice->invoice_number}}" title="Enter Invoice Number" required>
                         </div>
 
                         <div class="col">
                             <label>Invoice Date</label>
-                            <input class="form-control fc-datepicker" name="invoice_date" placeholder="YYYY-MM-DD" type="text" value="{{ date('Y-m-d') }}" required>
+                            <input class="form-control fc-datepicker" name="invoice_date" placeholder="YYYY-MM-DD" type="text" value="{{ $invoice->invoice_date }}" required>
                         </div>
 
                         <div class="col">
                             <label>Due Date</label>
-                            <input class="form-control fc-datepicker" name="due_date" placeholder="YYYY-MM-DD" type="text" required>
+                            <input class="form-control fc-datepicker" name="due_date" value="{{$invoice->due_date}}" placeholder="YYYY-MM-DD" type="text" required>
                         </div>
 
                     </div>
@@ -77,20 +79,21 @@ Adding Invoices
                                 <!--placeholder-->
                                 <option value="" selected disabled>Choose Department</option>
                                 @foreach ($departments as $department)
-                                <option value="{{$department->id}}">{{$department->name}} </option>
+                                <option value="{{$department->id}}"{{$invoice->department_id == $department->id ? 'selected' : ""}}>{{$department->name}} </option>
                                 @endforeach
                             </select>
                         </div>
 
                         <div class="col">
                             <label for="inputName" class="control-label">Product</label>
-                            <select id="product" name="product" class="form-control">
+                            <select id="product" name="product"  class="form-control">
+                                <option value="{{$invoice->product}}">{{$invoice->product}}</option>
                             </select>
                         </div>
 
                         <div class="col">
                             <label for="inputName" class="control-label"> Collection Amount</label>
-                            <input type="text" class="form-control" id="inputName" name="collection_amount" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
+                            <input type="text" class="form-control" id="inputName" name="collection_amount" value="{{$invoice->collection_amount}}" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
                         </div>
                     </div>
 
@@ -101,21 +104,22 @@ Adding Invoices
 
                         <div class="col">
                             <label for="inputName" class="control-label">Commission Value</label>
-                            <input type="text" class="form-control form-control-lg" id="Amount_Commission" name="commission_value" title="Enter Commission Value " oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" required>
+                            <input type="text" class="form-control form-control-lg" id="Amount_Commission" name="commission_value" value="{{$invoice->commission_value}}" title="Enter Commission Value " oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" required>
                         </div>
 
                         <div class="col">
                             <label for="inputName" class="control-label">Discount</label>
-                            <input type="text" class="form-control form-control-lg" id="discount" name="discount" title="Enter Discount" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" value=0 required>
+                            <input type="text" class="form-control form-control-lg" id="discount" name="discount" value="{{$invoice->discount}}" title="Enter Discount" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" value=0 required>
                         </div>
 
                         <div class="col">
                             <label for="inputName" class="control-label">Tax Rate</label>
                             <select name="tax_rate" id="Rate_VAT" class="form-control" onchange="myFunction()">
                                 <!--placeholder-->
-                                <option value="" selected disabled>Choose Tax Rate</option>
+                                <option value="{{$invoice->tax_rate}}">{{$invoice->tax_rate}}</option>
                                 <option value="5%">5%</option>
                                 <option value="10%">10%</option>
+
                             </select>
                         </div>
 
@@ -126,12 +130,12 @@ Adding Invoices
                     <div class="row">
                         <div class="col">
                             <label for="inputName" class="control-label">Tax Value</label>
-                            <input type="text" class="form-control" id="Value_VAT" name="tax_value" readonly>
+                            <input type="text" class="form-control" id="Value_VAT" name="tax_value" value="{{$invoice->tax_value}}" readonly>
                         </div>
 
                         <div class="col">
                             <label for="inputName" class="control-label">Total</label>
-                            <input type="text" class="form-control" id="Total" name="total" readonly>
+                            <input type="text" class="form-control" id="Total" name="total" value="{{$invoice->total}}" readonly>
                         </div>
                     </div>
 
@@ -139,7 +143,7 @@ Adding Invoices
                     <div class="row">
                         <div class="col">
                             <label for="exampleTextarea">Notes</label>
-                            <textarea class="form-control" id="exampleTextarea" name="note" rows="3"></textarea>
+                            <textarea class="form-control" id="exampleTextarea" name="note" rows="3">{{$invoice->note}}</textarea>
                         </div>
                     </div><br>
 
@@ -147,11 +151,11 @@ Adding Invoices
                     <h5 class="card-title">Files</h5>
 
                     <div class="col-sm-12 col-md-12">
-                        <input type="file" name="file" class="dropify" accept=".pdf,.jpg, .png, image/jpeg, image/png" data-height="70" />
+                        <input type="file" name="file"  class="dropify" accept=".pdf,.jpg, .png, image/jpeg, image/png" data-height="70" />
                     </div><br>
 
                     <div class="d-flex justify-content-center">
-                        <button type="submit" class="btn btn-primary">Add</button>
+                        <button type="submit" class="btn btn-primary">Save Changes</button>
                     </div>
 
 

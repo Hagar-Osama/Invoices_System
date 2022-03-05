@@ -11,6 +11,8 @@ interface InvoiceAttachmentInterface {
 
     public function destroy($request);
 
+    public function store($request);
+
 
 
 }
