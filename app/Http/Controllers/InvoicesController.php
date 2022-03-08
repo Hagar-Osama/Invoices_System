@@ -3,11 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Http\Interfaces\InvoicesInterface;
-use App\Http\Requests\AddInvoiceAttachmentRequest;
 use App\Http\Requests\AddInvoicesRequest;
 use App\Http\Requests\DeleteInvoicesRequest;
 use App\Http\Requests\UpdateInvoicesRequest;
-use Illuminate\Http\Request;
+use App\Http\Requests\UpdateInvoiceStatusRequest;
 
 class InvoicesController extends Controller
 {
@@ -53,4 +52,36 @@ class InvoicesController extends Controller
     {
         return $this->invoicesInterface->destroy($request);
     }
+
+    public function showStatus($invoiceId)
+    {
+        return $this->invoicesInterface->showStatus($invoiceId);
+    }
+
+    public function updateInvoiceStatus(UpdateInvoiceStatusRequest $request)
+    {
+        return $this->invoicesInterface->updateInvoiceStatus($request);
+    }
+
+    public function showPaidInvoices()
+    {
+        return $this->invoicesInterface->showPaidInvoices();
+    }
+
+    public function showUnpaidInvoices()
+    {
+        return $this->invoicesInterface->showUnpaidInvoices();
+    }
+
+    public function showPartlyPaidInvoices()
+    {
+        return $this->invoicesInterface->showPartlyPaidInvoices();
+    }
+
+    public function archiveInvoices(DeleteInvoicesRequest $request)
+    {
+        return $this->invoicesInterface->archiveInvoices($request);
+    }
+
+   
 }

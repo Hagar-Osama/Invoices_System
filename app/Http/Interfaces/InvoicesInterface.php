@@ -16,4 +16,21 @@ interface InvoicesInterface {
     public function update($request);
 
     public function destroy($request);
+
+    public function showStatus($invoiceId);
+
+    public function updateInvoiceStatus($request);
+
+    public function showPaidInvoices();
+
+    public function showUnpaidInvoices();
+
+    public function showPartlyPaidInvoices();
+
+    public function archiveInvoices($request);
+
+
+   
+
+
 }

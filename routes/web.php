@@ -1,12 +1,14 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\ArchiveController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\InvoiceAttachmentController;
 use App\Http\Controllers\InvoiceDetailController;
 use App\Http\Controllers\InvoicesController;
 use App\Http\Controllers\ProductController;
+use App\Http\Interfaces\InvoicesInterface;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -34,6 +36,18 @@ Route::group(['middleware' => 'auth'], function () {
      Route::get('invoice/edit/{id}', [InvoicesController::class, 'edit'])->name('invoice.edit');
      Route::put('invoices/update', [InvoicesController::class, 'update'])->name('invoice.update');
      Route::delete('invoice/delete', [InvoicesController::class, 'destroy'])->name('invoice.destroy');
+     Route::get('invoiceStatus/{invoiceId}', [InvoicesController::class, 'showStatus'])->name('invoiceStatus.show');
+     Route::put('invoiceStatus/update', [InvoicesController::class, 'updateInvoiceStatus'])->name('invoiceStatus.update');
+     Route::get('paidInvoices', [InvoicesInterface::class, 'showPaidInvoices'])->name('paidInvoices.index');
+     Route::get('unpaidInvoices', [InvoicesInterface::class, 'showUnpaidInvoices'])->name('unpaidInvoices.index');
+     Route::get('partlyPaidInvoices', [InvoicesInterface::class, 'showPartlyPaidInvoices'])->name('partlyPaidInvoices.index');
+     Route::get('archivedInvoices', [ArchiveController::class, 'showArchivedInvoices'])->name('archivedInvoices.index');
+     Route::delete('invoice/archive', [InvoicesController::class, 'archiveInvoices'])->name('invoices.archive');
+     Route::put('archives/update', [ArchiveController::class, 'updateArchives'])->name('archive.update');
+     Route::delete('archive/delete', [ArchiveController::class, 'destroy'])->name('archive.destroy');
+
+
+
       //invoice Details Route
     Route::get('/invoiceDetails/{invoiceId}', [InvoiceDetailController::class, 'index'])->name('invoiceDetails.index');
     //invoice Attachment Routes

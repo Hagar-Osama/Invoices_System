@@ -1,6 +1,6 @@
 @extends('layouts.master')
 @section('title')
-Invoices
+Unpaid Invoices
 @endsection
 @section('css')
 <!-- Internal Data table css -->
@@ -22,7 +22,7 @@ Invoices
             type: "success"
         })
     }
-</script> 
+</script>
 @endif
 @if (session()->has('updateInvoiceStatus'))
 <script>
@@ -34,21 +34,11 @@ Invoices
     }
 </script>
 @endif
-@if (session()->has('restoreArchiveInvoice'))
-<script>
-    window.onload = function() {
-        notif({
-            msg: " Archived Invoice Has Been Restored Successfully",
-            type: "success"
-        })
-    }
-</script>
-@endif
 <!-- breadcrumb -->
 <div class="breadcrumb-header justify-content-between">
     <div class="my-auto">
         <div class="d-flex">
-            <h4 class="content-title mb-0 my-auto">Invoices</h4><span class="text-muted mt-1 tx-13 mr-2 mb-0">/ Invoices List</span>
+            <h4 class="content-title mb-0 my-auto">Invoices</h4><span class="text-muted mt-1 tx-13 mr-2 mb-0">/ Unpaid Invoices List</span>
         </div>
     </div>
 
@@ -127,9 +117,7 @@ Invoices
                                             <a class="dropdown-item" href="{{ URL::route('invoiceStatus.show', [$invoice->id]) }}"><i class=" text-success fas
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     fa-money-bill"></i>&nbsp;&nbsp;تغير
                                                 Payment Status
-                                            </a>
-                                            <a class="dropdown-item" href="#" data-invoice_id="{{ $invoice->id }}" data-toggle="modal" data-target="#Transfer_invoice"><i class="text-warning fas fa-exchange-alt"></i>&nbsp;&nbsp;Archive Invoices
-                                            </a>
+                                                </a>
                                 </td>
                             </tr>
                             @endforeach
@@ -156,7 +144,7 @@ Invoices
                         @csrf
                 </div>
                 <div class="modal-body">
-                    ?Are You Sure You Want To Delete This
+                    Are You Sure You Want To Delete This?
                     <input type="hidden" name="invoice_id" id="invoice_id" value="">
                 </div>
                 <div class="modal-footer">
@@ -169,33 +157,6 @@ Invoices
     </div>
 
     <!--div-->
-    <!-- Archive Invoices -->
-    <div class="modal fade" id="Transfer_invoice" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel"> Archive Invoices</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                    <form action="{{ route('invoices.archive') }}" method="post">
-                        @method('DELETE')
-                        @csrf
-                </div>
-                <div class="modal-body">
-                    ?Are You Sure You Want To Archive This Invoice
-                    <input type="hidden" name="invoice_id" id="invoice_id" value="">
-                    <input type="hidden" name="id_page" id="id_page" value="2">
-
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                    <button type="submit" class="btn btn-success">Confirm</button>
-                </div>
-                </form>
-            </div>
-        </div>
-    </div>
 </div>
 <!-- row closed -->
 </div>
@@ -234,13 +195,4 @@ Invoices
         modal.find('.modal-body #invoice_id').val(invoice_id);
     })
 </script>
-
-<script>
-        $('#Transfer_invoice').on('show.bs.modal', function(event) {
-            var button = $(event.relatedTarget)
-            var invoice_id = button.data('invoice_id')
-            var modal = $(this)
-            modal.find('.modal-body #invoice_id').val(invoice_id);
-        })
-    </script>
 @endsection

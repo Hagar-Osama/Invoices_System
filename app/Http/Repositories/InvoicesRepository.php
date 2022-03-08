@@ -136,13 +136,13 @@ class InvoicesRepository implements InvoicesInterface
 
         ]);
 
-            $invoice_id = $this->invoiceModel::latest()->first()->id;
-            $this->invoiceAttachmentModel::where('invoice_id', $invoice_id)->update([
-                'invoice_number' => $request->invoice_number,
-                'invoice_id' => $invoice_id,
-                'created_by' => auth()->user()->name
+        $invoice_id = $this->invoiceModel::latest()->first()->id;
+        $this->invoiceAttachmentModel::where('invoice_id', $invoice_id)->update([
+            'invoice_number' => $request->invoice_number,
+            'invoice_id' => $invoice_id,
+            'created_by' => auth()->user()->name
 
-            ]);
+        ]);
         return redirect(route('invoices.index'))->with('success', 'Invoice Has Been Updated Successfully');
     }
 
@@ -153,11 +153,100 @@ class InvoicesRepository implements InvoicesInterface
         $invoice_id = $this->invoiceModel::latest()->first()->id;
         // $invoice_id = $request->invoice_id;
         $invoiceAttachment = $this->invoiceAttachmentModel::where('invoice_id', $invoice_id)->first();
-        if (! empty($invoiceAttachment->file_name)) {
+        if (!empty($invoiceAttachment->file_name)) {
             Storage::disk('public_uploads')->deleteDirectory($invoiceAttachment->invoice_number);
         }
         $invoice->forceDelete();
         session()->flash('delete_invoice');
         return redirect(route('invoices.index'));
     }
+
+    public function showStatus($invoiceId)
+    {
+        $invoices = $this->getInvoiceById($invoiceId);
+        return view('invoices.invoiceStatus', compact('invoices'));
+    }
+
+    public function updateInvoiceStatus($request)
+    {
+        $invoice = $this->getInvoiceById($request->invoice_id);
+
+        if ($request->status === "paid") {
+            $invoice->update([
+                'status_value' => 1,
+                'status' => $request->status,
+                'payment_date' => $request->payment_date
+            ]);
+
+            $this->invoiceDetailsModel->create([
+                'invoice_id' => $request->invoice_id,
+                'invoice_number' => $request->invoice_number,
+                'product' => $request->product,
+                'department' => $request->department_id,
+                'status' => $request->status,
+                'status_value' => 1,
+                'note' => $request->note,
+                'payment_date' => $request->payment_date,
+                'user' => auth()->user()->name
+
+            ]);
+        } else {
+            $invoice->update([
+                'status' => $request->status,
+                'status_value' => 3,
+                'payment_date' => $request->payment_date
+            ]);
+
+            $this->invoiceDetailsModel->create([
+                'invoice_id' => $request->invoice_id,
+                'invoice_number' => $request->invoice_number,
+                'product' => $request->product,
+                'department' => $request->department_id,
+                'status' => $request->status,
+                'status_value' => 1,
+                'note' => $request->note,
+                'payment_date' => $request->payment_date,
+                'user' => auth()->user()->name
+
+            ]);
+        }
+        session()->flash('updateInvoiceStatus');
+        return redirect(route('invoices.index'));
+    }
+
+    public function showPaidInvoices()
+    {
+        $invoices = $this->invoiceModel::where('status_value', 1)->get();
+        return view('invoices.paidInvoices', compact('invoices'));
+    }
+
+    public function showUnpaidInvoices()
+    {
+        
+        $invoices = $this->invoiceModel::where('status_value', 2)->get();
+        return view('invoices.unpaidInvoices', compact('invoices'));
+
+    }
+
+    public function showPartlyPaidInvoices()
+    {
+        
+        $invoices = $this->invoiceModel::where('status_value', 3)->get();
+        return view('invoices.partlyPaidInvoices', compact('invoices'));
+
+    }
+
+    public function archiveInvoices($request)
+    {
+        $invoice = $this->getInvoiceById($request->invoice_id);
+        $invoice->delete();
+        session()->flash('archiveInvoice');
+        return redirect(route('archivedInvoices.index'));
+
+    }
+
+   
+
+   
+
 }

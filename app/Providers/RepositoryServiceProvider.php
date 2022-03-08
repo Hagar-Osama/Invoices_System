@@ -34,6 +34,11 @@ class RepositoryServiceProvider extends ServiceProvider
         );
 
         $this->app->bind(
+            "App\Http\Interfaces\ArchiveInterface",
+            "App\Http\Repositories\ArchiveRepository"
+        );
+
+        $this->app->bind(
             "App\Http\Interfaces\InvoiceAttachmentInterface",
             "App\Http\Repositories\InvoiceAttachmentRepository"
         );
