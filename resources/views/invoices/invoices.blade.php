@@ -22,7 +22,7 @@ Invoices
             type: "success"
         })
     }
-</script> 
+</script>
 @endif
 @if (session()->has('updateInvoiceStatus'))
 <script>
@@ -130,6 +130,9 @@ Invoices
                                             </a>
                                             <a class="dropdown-item" href="#" data-invoice_id="{{ $invoice->id }}" data-toggle="modal" data-target="#Transfer_invoice"><i class="text-warning fas fa-exchange-alt"></i>&nbsp;&nbsp;Archive Invoices
                                             </a>
+                                            <a class="dropdown-item" href="{{route('printInvoice.index', [$invoice->id]) }}"><i class="text-success fas fa-print"></i>&nbsp;&nbsp;Print
+                                                Invoice
+                                            </a>
                                 </td>
                             </tr>
                             @endforeach
@@ -236,11 +239,11 @@ Invoices
 </script>
 
 <script>
-        $('#Transfer_invoice').on('show.bs.modal', function(event) {
-            var button = $(event.relatedTarget)
-            var invoice_id = button.data('invoice_id')
-            var modal = $(this)
-            modal.find('.modal-body #invoice_id').val(invoice_id);
-        })
-    </script>
+    $('#Transfer_invoice').on('show.bs.modal', function(event) {
+        var button = $(event.relatedTarget)
+        var invoice_id = button.data('invoice_id')
+        var modal = $(this)
+        modal.find('.modal-body #invoice_id').val(invoice_id);
+    })
+</script>
 @endsection

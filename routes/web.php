@@ -45,6 +45,7 @@ Route::group(['middleware' => 'auth'], function () {
      Route::delete('invoice/archive', [InvoicesController::class, 'archiveInvoices'])->name('invoices.archive');
      Route::put('archives/update', [ArchiveController::class, 'updateArchives'])->name('archive.update');
      Route::delete('archive/delete', [ArchiveController::class, 'destroy'])->name('archive.destroy');
+     Route::get('invoice/print/{invoiceId}', [InvoicesController::class, 'showInvoicePrintPage'])->name('printInvoice.index');
 
 
 

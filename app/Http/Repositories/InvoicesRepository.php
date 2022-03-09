@@ -245,6 +245,12 @@ class InvoicesRepository implements InvoicesInterface
 
     }
 
+    public function showInvoicePrintPage($invoiceId)
+    {
+        $invoices = $this->getInvoiceById($invoiceId)->where('id', $invoiceId)->first();
+        return view('invoices.print', compact('invoices'));
+    }
+
    
 
    

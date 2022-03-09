@@ -83,5 +83,10 @@ class InvoicesController extends Controller
         return $this->invoicesInterface->archiveInvoices($request);
     }
 
+    public function showInvoicePrintPage($invoiceId)
+    {
+        return $this->invoicesInterface->showInvoicePrintPage($invoiceId);
+    }
+
    
 }

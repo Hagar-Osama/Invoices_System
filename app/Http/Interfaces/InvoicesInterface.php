@@ -29,6 +29,8 @@ interface InvoicesInterface {
 
     public function archiveInvoices($request);
 
+    public function showInvoicePrintPage($invoiceId);
+
 
    
 
