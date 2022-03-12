@@ -88,5 +88,11 @@ class InvoicesController extends Controller
         return $this->invoicesInterface->showInvoicePrintPage($invoiceId);
     }
 
-   
+    public function export()
+    {
+        return $this->invoicesInterface->export();
+    }
+
+
+
 }

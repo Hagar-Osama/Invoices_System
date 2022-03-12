@@ -31,8 +31,11 @@ interface InvoicesInterface {
 
     public function showInvoicePrintPage($invoiceId);
 
+    public function export();
 
-   
+
+
+
 
 
 }

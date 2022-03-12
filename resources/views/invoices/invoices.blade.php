@@ -64,6 +64,8 @@ Invoices
             <div class="card-header pb-0">
 
                 <a href="{{route('invoices.create')}}" class="btn btn-info">Add Invoices</a>
+                <a href="{{route('invoices.export')}}" class="btn btn-warning">Export Invoices</a>
+
             </div>
             @include('partials.session')
             @include('partials._errors')

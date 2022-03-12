@@ -2,6 +2,7 @@
 
 namespace App\Http\Repositories;
 
+use App\Exports\InvoicesExport;
 use App\Http\Interfaces\InvoicesInterface;
 use App\Http\Traits\DepartmentTrait;
 use App\Http\Traits\InvoiceAttachmentTrait;
@@ -10,8 +11,12 @@ use App\Models\Department;
 use App\Models\Invoice;
 use App\Models\InvoiceAttachment;
 use App\Models\InvoiceDetail;
+use App\Models\User;
+use App\Notifications\AddedInvoice;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Storage;
+use Maatwebsite\Excel\Facades\Excel;
 
 class InvoicesRepository implements InvoicesInterface
 {
@@ -96,6 +101,9 @@ class InvoicesRepository implements InvoicesInterface
                 'created_by' => auth()->user()->name
 
             ]);
+
+            $user = User::first();
+            Notification::send($user, new AddedInvoice($invoice_id));
         }
         return redirect(route('invoices.index'))->with('success', 'Invoice Has Been Added Successfully');
     }
@@ -222,7 +230,7 @@ class InvoicesRepository implements InvoicesInterface
 
     public function showUnpaidInvoices()
     {
-        
+
         $invoices = $this->invoiceModel::where('status_value', 2)->get();
         return view('invoices.unpaidInvoices', compact('invoices'));
 
@@ -230,7 +238,7 @@ class InvoicesRepository implements InvoicesInterface
 
     public function showPartlyPaidInvoices()
     {
-        
+
         $invoices = $this->invoiceModel::where('status_value', 3)->get();
         return view('invoices.partlyPaidInvoices', compact('invoices'));
 
@@ -251,8 +259,14 @@ class InvoicesRepository implements InvoicesInterface
         return view('invoices.print', compact('invoices'));
     }
 
-   
+    public function export()
+    {
+        return Excel::download(new InvoicesExport, 'invoices.xlsx' );
+    }
 
-   
+
+
+
+
 
 }
