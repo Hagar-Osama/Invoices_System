@@ -31,6 +31,7 @@ Login
 												<h2>Welcome back!</h2>
 												<h5 class="font-weight-semibold mb-4">Please sign in to continue.</h5>
                                                 @include('partials._errors')
+                                                @include('partials._session')
 												<form action="{{route('signin')}}" method="Post">
                                                     @csrf
 													<div class="form-group">

@@ -102,8 +102,8 @@ class InvoicesRepository implements InvoicesInterface
 
             ]);
 
-            $user = User::first();
-            Notification::send($user, new AddedInvoice($invoice_id));
+            // $user = User::first();
+            // Notification::send($user, new AddedInvoice($invoice_id));
         }
         return redirect(route('invoices.index'))->with('success', 'Invoice Has Been Added Successfully');
     }
