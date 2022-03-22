@@ -14,6 +14,9 @@ class InvoicesController extends Controller
     public function __construct(InvoicesInterface $invoices)
     {
         $this->invoicesInterface = $invoices;
+        $this->middleware('permission:Invoices List|Show Status');
+        $this->middleware('permission:Add Invoices', ['only' => ['create', 'store']]);
+        $this->middleware('permission:Edit Invoice', ['only' => ['edit','update']]);
 
     }
 
@@ -35,7 +38,6 @@ class InvoicesController extends Controller
     public function store(AddInvoicesRequest $request)
     {
         return $this->invoicesInterface->store($request);
-
     }
 
     public function edit($invoiceId)
@@ -92,7 +94,4 @@ class InvoicesController extends Controller
     {
         return $this->invoicesInterface->export();
     }
-
-
-
 }

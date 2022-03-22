@@ -62,8 +62,9 @@ Invoices
     <div class="col-xl-12">
         <div class="card mg-b-20">
             <div class="card-header pb-0">
-
+                @can('Add Invoices')
                 <a href="{{route('invoices.create')}}" class="btn btn-info">Add Invoices</a>
+                @endcan
                 <a href="{{route('invoices.export')}}" class="btn btn-warning">Export Invoices</a>
 
             </div>
@@ -126,7 +127,7 @@ Invoices
                                                 Invoice</a>
                                             <a class="dropdown-item" href="#" data-invoice_id="{{ $invoice->id }}" data-toggle="modal" data-target="#delete_invoice"><i class="text-danger fas fa-trash-alt"></i>&nbsp;&nbsp;Delete
                                                 Invoice</a>
-                                            <a class="dropdown-item" href="{{ URL::route('invoiceStatus.show', [$invoice->id]) }}"><i class=" text-success fas                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    fa-money-bill"></i>&nbsp;&nbsp;تغير
+                                            <a class="dropdown-item" href="{{ URL::route('invoiceStatus.show', [$invoice->id]) }}"><i class=" text-success fas fa-money-bill"></i>&nbsp;&nbsp;Change
                                                 Payment Status
                                             </a>
                                             <a class="dropdown-item" href="#" data-invoice_id="{{ $invoice->id }}" data-toggle="modal" data-target="#Transfer_invoice"><i class="text-warning fas fa-exchange-alt"></i>&nbsp;&nbsp;Archive Invoices

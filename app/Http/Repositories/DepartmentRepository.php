@@ -1,11 +1,9 @@
 <?php
-namespace App\http\Repositories;
+namespace App\Http\Repositories;
 
 use App\Http\Interfaces\DepartmentInterface;
-use App\Http\Requests\AddDepartmentRequest;
 use App\Http\Traits\DepartmentTrait;
 use App\Models\Department;
-use Illuminate\Http\Request;
 
 class DepartmentRepository implements DepartmentInterface
 {

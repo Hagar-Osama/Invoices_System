@@ -15,6 +15,8 @@ class DepartmentController extends Controller
     public function __construct(DepartmentInterface $department)
     {
         $this->departmentInterface = $department;
+        $this->middleware('permission:departments', ['only' => ['index']]);
+
 
     }
 

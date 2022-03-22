@@ -62,7 +62,7 @@ Users
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($data as $key => $user)
+                            @foreach ($users as $key => $user)
                             <tr>
                                 <td>{{ ++$i }}</td>
                                 <td>{{ $user->name }}</td>
@@ -81,8 +81,8 @@ Users
 
                                 <td>
                                     @if (!empty($user->getRoleNames()))
-                                    @foreach ($user->getRoleNames() as $v)
-                                    <label class="badge badge-success">{{ $v }}</label>
+                                    @foreach ($user->getRoleNames() as $role)
+                                    <label class="badge badge-success">{{ $role }}</label>
                                     @endforeach
                                     @endif
                                 </td>

@@ -23,11 +23,11 @@ Users Roles
 @section('content')
 
 
-@if (session()->has('Add'))
+@if (session()->has('add'))
     <script>
         window.onload = function() {
             notif({
-                msg: " تم اضافة الصلاحية بنجاح",
+                msg: "   Role Added Successfully ",
                 type: "success"
             });
         }
@@ -49,7 +49,7 @@ Users Roles
     <script>
         window.onload = function() {
             notif({
-                msg: " تم حذف الصلاحية بنجاح",
+                msg: "    Role Deleted Successfully",
                 type: "error"
             });
         }

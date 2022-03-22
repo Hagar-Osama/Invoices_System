@@ -19,6 +19,11 @@ class RepositoryServiceProvider extends ServiceProvider
         );
 
         $this->app->bind(
+            "App\Http\Interfaces\AdminInterface",
+            "App\Http\Repositories\AdminRepository"
+        );
+
+        $this->app->bind(
             "App\Http\Interfaces\DepartmentInterface",
             "App\Http\Repositories\DepartmentRepository"
         );
@@ -36,6 +41,16 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(
             "App\Http\Interfaces\ArchiveInterface",
             "App\Http\Repositories\ArchiveRepository"
+        );
+
+        $this->app->bind(
+            "App\Http\Interfaces\ReportsInterface",
+            "App\Http\Repositories\ReportsRepository"
+        );
+
+        $this->app->bind(
+            "App\Http\Interfaces\CustomersReportsInterface",
+            "App\Http\Repositories\CustomersReportsRepository"
         );
 
         $this->app->bind(

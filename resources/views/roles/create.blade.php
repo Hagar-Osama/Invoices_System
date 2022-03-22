@@ -62,10 +62,10 @@ Add Roles
                             <li><a href="#">Roles</a>
                                 <ul>
                             </li>
-                            @foreach($permission as $value)
+                            @foreach($permissions as $permission)
                             <label
-                                style="font-size: 16px;">{{ Form::checkbox('permission[]', $value->id, false, array('class' => 'name')) }}
-                                {{ $value->name }}</label>
+                                style="font-size: 16px;">{{ Form::checkbox('permission[]', $permission->id, false, array('class' => 'name')) }}
+                                {{ $permission->name }}</label>
 
                             @endforeach
                             </li>

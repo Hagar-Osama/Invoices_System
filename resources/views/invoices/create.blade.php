@@ -196,22 +196,28 @@ Adding Invoices
 <script src="{{ URL::asset('assets/js/form-elements.js') }}"></script>
 
 <script>
+    var date = $('.fc-datepicker').datepicker({
+        dateFormat: 'yy-mm-dd'
+    }).val();
+</script>
+
+<script>
     //when page is ready and loaded
     $(document).ready(function() {
-        //when we make changes in section part and choose a section
+        //when we make changes in department part and choose a department
             $('select[name="department_id"]').on('change', function() {
-               // create a variable and assign the value of the section id we choose in it
-                var SectionId = $(this).val();
+               // create a variable and assign the value of the department id we choose in it
+                var departmentId = $(this).val();
                 //if the id is true go to the url with the id coming
-                if (SectionId) {
+                if (departmentId) {
                     $.ajax({
-                        url: "{{ URL::to('section') }}/" + SectionId,
+                        url: "{{ URL::to('department') }}/" + departmentId,
                         type: "GET",
                         dataType: "json",
                         success: function(data) {
-                            //product filed in the page is empty
+                            //product field in the page is empty
                             $('select[name="product"]').empty();
-                            //make for each on the value which is the product name which comes from the pluck method
+                            //make for each on the value which is the product name which comes from the pluck from getProduct method
                             //and put it in option value=""
                             $.each(data, function(key, value) {
                                 $('select[name="product"]').append('<option value="' +

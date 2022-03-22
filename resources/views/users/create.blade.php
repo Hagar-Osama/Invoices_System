@@ -88,6 +88,7 @@ Add User
                         <div class="col-lg-6">
                             <label class="form-label"> User Status</label>
                             <select name="status" id="select-beast" class="form-control  nice-select  custom-select">
+                                <option disabled selected value>Select A Status</option>
                                 <option value="active">Active</option>
                                 <option value="inactive">Inactive</option>
                             </select>

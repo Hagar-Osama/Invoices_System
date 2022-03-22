@@ -14,6 +14,7 @@ class ProductController extends Controller
     public function __construct(ProductsInterface $products)
     {
         $this->productInterface = $products;
+        $this->middleware('permission:Products', ['only' => ['index']]);
 
     }
 

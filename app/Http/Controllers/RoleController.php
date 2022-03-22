@@ -18,7 +18,7 @@ function __construct()
 {
 
 $this->middleware('permission:Show Role|Users Roles', ['only' => ['index']]);
-$this->middleware('permission:Add Role|Add User', ['only' => ['create','store']]);
+$this->middleware('permission:Add Role|Add User|Add Invoices', ['only' => ['create','store']]);
 $this->middleware('permission:Edit Role|Edit User', ['only' => ['edit','update']]);
 $this->middleware('permission:Delete Role', ['only' => ['destroy']]);
 
@@ -45,8 +45,8 @@ return view('roles.index',compact('roles'))
 */
 public function create()
 {
-$permission = Permission::get();
-return view('roles.create',compact('permission'));
+$permissions = Permission::get();
+return view('roles.create',compact('permissions'));
 }
 /**
 * Store a newly created resource in storage.
@@ -62,8 +62,8 @@ $this->validate($request, [
 ]);
 $role = Role::create(['name' => $request->input('name')]);
 $role->syncPermissions($request->input('permission'));
-return redirect()->route('roles.index')
-->with('success','Role created successfully');
+session()->flash('add');
+return redirect()->route('roles.index');
 }
 /**
 * Display the specified resource.
@@ -123,7 +123,7 @@ return redirect()->route('roles.index');
 public function destroy($id)
 {
 DB::table("roles")->where('id',$id)->delete();
-return redirect()->route('roles.index')
-->with('success','Role deleted successfully');
+session()->flash('delete');
+return redirect()->route('roles.index');
 }
 }

@@ -13,6 +13,7 @@ use App\Models\InvoiceAttachment;
 use App\Models\InvoiceDetail;
 use App\Models\User;
 use App\Notifications\AddedInvoice;
+use App\Notifications\newInvoiceAdded;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Storage;
@@ -27,12 +28,14 @@ class InvoicesRepository implements InvoicesInterface
     private $depModel;
     private $invoiceDetailsModel;
     private $invoiceAttachmentModel;
-    public function __construct(Invoice $invoice, Department $department, InvoiceDetail $invoiceDetails, InvoiceAttachment $invoiceAttachment)
+    private $userModel;
+    public function __construct(Invoice $invoice, Department $department, InvoiceDetail $invoiceDetails, InvoiceAttachment $invoiceAttachment, User $user)
     {
         $this->invoiceModel = $invoice;
         $this->depModel = $department;
         $this->invoiceDetailsModel = $invoiceDetails;
         $this->invoiceAttachmentModel = $invoiceAttachment;
+        $this->userModel = $user;
     }
 
     public function index()
@@ -102,8 +105,12 @@ class InvoicesRepository implements InvoicesInterface
 
             ]);
 
-            // $user = User::first();
-            // Notification::send($user, new AddedInvoice($invoice_id));
+            $user = User::first();
+            Notification::send($user, new AddedInvoice($invoice_id));
+
+            // $user = $this->userModel::first();
+            // $invoices = $this->invoiceModel::latest()->first();
+            // Notification::send($user, new newInvoiceAdded($invoices));
         }
         return redirect(route('invoices.index'))->with('success', 'Invoice Has Been Added Successfully');
     }

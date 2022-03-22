@@ -80,19 +80,18 @@ Edit User
                     <div class="col-lg-6">
                         <label class="form-label">User Status </label>
                         <select name="status" id="select-beast" class="form-control  nice-select  custom-select">
-                            <option value="{{ $user->status}}">{{ $user->status}}</option>
-                            <option value="active">Active</option>
-                            <option value="inactive "> Inactive</option>
+                            <option value="active" @if ($user->status == 'active' ? 'selected' : '')@endif>Active</option>
+                            <option value="inactive" @if ($user->status == 'inactive' ? 'selected' : '')@endif>Inactive</option>
                         </select>
                     </div>
                 </div>
 
                 <div class="row mg-b-20">
-                    <div class="col-xs-12 col-sm-12 col-md-12">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6">
                         <div class="form-group">
                             <strong> User Role</strong>
                             {!! Form::select('roles_name[]', $roles,$userRole, array('class' => 'form-control','multiple'))
-                            !!}
+                        </select>
                         </div>
                     </div>
                 </div>

@@ -43,8 +43,8 @@ Show Roles
                             <li><a href="#">{{ $role->name }}</a>
                                 <ul>
                                     @if(!empty($rolePermissions))
-                                    @foreach($rolePermissions as $v)
-                                    <li>{{ $v->name }}</li>
+                                    @foreach($rolePermissions as $permission)
+                                    <li>{{ $permission->name }}</li>
                                     @endforeach
                                     @endif
                                 </ul>

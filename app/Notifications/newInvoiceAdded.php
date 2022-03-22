@@ -2,24 +2,26 @@
 
 namespace App\Notifications;
 
+use App\Models\Invoice;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
+use Illuminate\Support\Facades\Auth;
 
-class AddedInvoice extends Notification
+class newInvoiceAdded extends Notification
 {
     use Queueable;
-    private $invoice_id;
+    private  $invoices;
+
 
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct($invoice_id)
+    public function __construct(Invoice $invoices)
     {
-        $this->invoice_id = $invoice_id;
+        $this->invoices = $invoices;
     }
 
     /**
@@ -30,7 +32,7 @@ class AddedInvoice extends Notification
      */
     public function via($notifiable)
     {
-        return ['mail'];
+        return ['database'];
     }
 
     /**
@@ -39,17 +41,7 @@ class AddedInvoice extends Notification
      * @param  mixed  $notifiable
      * @return \Illuminate\Notifications\Messages\MailMessage
      */
-    public function toMail($notifiable)
-    {
-        //url for the link the user gonna click
-        $url = 'http://localhost:8000/invoiceDetails/' . $this->invoice_id;
-        return (new MailMessage)
-            ->subject('Invoice Added')
-            ->greeting('Hello,I hope this email finds you')
-            ->line('The introduction to the notification.')
-            ->action('Show Invoice', $url)
-            ->line('Thank you for using our application!');
-    }
+  
 
     /**
      * Get the array representation of the notification.
@@ -57,10 +49,12 @@ class AddedInvoice extends Notification
      * @param  mixed  $notifiable
      * @return array
      */
-    public function toArray($notifiable)
+    public function toDatabase($notifiable)
     {
         return [
-            //
+           'id' => $this->invoices->id,
+           'title' => 'A New Invoice Has Been Added By:',
+           'user' => Auth::user()->name,
         ];
     }
 }

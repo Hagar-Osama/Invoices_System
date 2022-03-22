@@ -46,7 +46,7 @@ Edit Roles
                 <div class="main-content-label mg-b-5">
                     <div class="form-group">
                         <p>Role Name  :</p>
-                        {!! Form::text('name', null, array('placeholder' => 'Name','class' => 'form-control')) !!}
+                        <input type="text" name="name" value="{{$role->name}}">
                     </div>
                 </div>
                 <div class="row">

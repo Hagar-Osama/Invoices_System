@@ -16,8 +16,8 @@ class UserController extends Controller
 */
 public function index(Request $request)
 {
-$data = User::orderBy('id','DESC')->paginate(5);
-return view('users.index',compact('data'))
+$users = User::orderBy('id','DESC')->paginate(5);
+return view('users.index',compact('users'))
 ->with('i', ($request->input('page', 1) - 1) * 5);
 }
 
@@ -29,6 +29,7 @@ return view('users.index',compact('data'))
 */
 public function create()
 {
+    // for collective html
 $roles = Role::pluck('name','name')->all();
 
 return view('users.create',compact('roles'));
@@ -80,9 +81,10 @@ return view('users.show',compact('user'));
 public function edit($id)
 {
 $user = User::find($id);
+//for collective html
 $roles = Role::pluck('name','name')->all();
 $userRole = $user->roles->pluck('name','name')->all();
-return view('users.edit',compact('user','roles','userRole'));
+return view('users.edit',compact('user', 'roles', 'userRole'));
 }
 /**
 * Update the specified resource in storage.
@@ -103,11 +105,12 @@ $input = $request->all();
 if(!empty($input['password'])){
 $input['password'] = Hash::make($input['password']);
 }else{
+//dont assign the value of the key password in the input array
 $input = array_except($input,array('password'));
 }
 $user = User::find($id);
 $user->update($input);
-DB::table('model_has_roles')->where('model_id',$id)->delete();
+DB::table('model_has_roles')->where('model_id',$id)->delete(); //??
 $user->assignRole($request->input('roles_name'));
 return redirect()->route('users.index')
 ->with('success','User Updated Successfully');

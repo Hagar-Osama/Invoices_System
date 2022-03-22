@@ -114,10 +114,11 @@ Paid Invoices
                                                 Invoice</a>
                                             <a class="dropdown-item" href="#" data-invoice_id="{{ $invoice->id }}" data-toggle="modal" data-target="#delete_invoice"><i class="text-danger fas fa-trash-alt"></i>&nbsp;&nbsp;Delete
                                                 Invoice</a>
-                                            <a class="dropdown-item" href="{{ URL::route('invoiceStatus.show', [$invoice->id]) }}"><i class=" text-success fas
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    fa-money-bill"></i>&nbsp;&nbsp;تغير
+                                                @can('Show Status')
+                                            <a class="dropdown-item" href="{{ URL::route('invoiceStatus.show', [$invoice->id]) }}"><i class=" text-success fas fa-money-bill"></i>&nbsp;&nbsp;Change
                                                 Payment Status
                                                 </a>
+                                                @endcan
                                 </td>
                             </tr>
                             @endforeach
