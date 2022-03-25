@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Interfaces\InvoiceAttachmentInterface;
 use App\Http\Requests\AddInvoiceAttachmentRequest;
 use App\Http\Requests\DeleteInvoiceAttachmentRequest;
+use App\Http\Requests\updateInvoiceAttachmentRequest;
 use Illuminate\Http\Request;
 
 class InvoiceAttachmentController extends Controller
@@ -37,6 +38,11 @@ class InvoiceAttachmentController extends Controller
     public function store(AddInvoiceAttachmentRequest $request)
     {
         return $this->invoiceAttachmentInterface->store($request);
+    }
+
+    public function update(updateInvoiceAttachmentRequest $request)
+    {
+        return $this->invoiceAttachmentInterface->update($request);
     }
 
 

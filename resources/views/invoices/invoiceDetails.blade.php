@@ -210,6 +210,8 @@
                                                                 <a class="btn btn-outline-info btn-sm" href="{{ route('downloadFile', [$invoiceAttachment->invoice_number, $invoiceAttachment->file_name]) }}" role="button" target="_blank"><i class="fas fa-download"></i>&nbsp;
                                                                     Download</a>
                                                                 <button class="btn btn-outline-danger btn-sm" data-toggle="modal" data-file_name="{{ $invoiceAttachment->file_name }}" data-invoice_number="{{ $invoiceAttachment->invoice_number }}" data-id_file="{{ $invoiceAttachment->id }}" data-target="#delete_file">Delete</button>
+                                                                <button class="btn btn-outline-warning btn-sm" data-toggle="modal" data-invoice_number="{{ $invoiceAttachment->invoice_number }}" data-id_invoice="{{ $invoice->id }}" data-target="#update_file">Update</button>
+
 
                                                             </td>
 
@@ -245,7 +247,8 @@
 
 </div>
 <!-- /row -->
-<!-- delete -->
+
+<!-- delete Attachment-->
 <div class="modal fade" id="delete_file" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -266,6 +269,46 @@
                     <input type="hidden" name="id_file" id="id_file" value="">
                     <input type="hidden" name="file_name" id="file_name" value="">
                     <input type="hidden" name="invoice_number" id="invoice_number" value="">
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-danger">Confirm</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- update Attachment -->
+<div class="modal fade" id="update_file" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">update File</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form action="{{route('attachment.update')}}" method="post"  enctype="multipart/form-data">
+                @csrf
+                @method('PUT')
+                <div class="modal-body">
+                    <div class="custom-file">
+                        <p class="text-danger">* File Formate pdf, jpeg ,.jpg , png </p>
+
+                        <div class="col-sm-12 col-md-12">
+                            <input type="file" name="file" class="dropify" accept=".pdf,.jpg, .png, image/jpeg, image/png" data-height="70" />
+                            @error('file')
+                            <span class="invalid-feedback text-danger" role="alert">
+                                <p>{{ $message }}</p>
+                            </span>
+                            @enderror
+                        </div><br>
+                        <input type="hidden" id="customFile" name="invoice_number" value="{{ $invoice->invoice_number }}">
+                        <input type="hidden" id="invoice_id" name="invoice_id" value="{{ $invoice->id }}">
+
+                    </div>
 
                 </div>
                 <div class="modal-footer">
@@ -309,5 +352,15 @@
         modal.find('.modal-body #file_name').val(file_name);
         modal.find('.modal-body #invoice_number').val(invoice_number);
     })
+</script>
+
+$('#update_file').on('show.bs.modal', function(event) {
+var button = $(event.relatedTarget)
+var id_invoice = button.data('id_invoice')
+var invoice_number = button.data('invoice_number')
+var modal = $(this)
+modal.find('.modal-body #id_invoice').val(id_invoice);
+modal.find('.modal-body #invoice_number').val(invoice_number);
+})
 </script>
 @endsection

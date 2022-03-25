@@ -41,7 +41,7 @@ class PermissionTableSeeder extends Seeder
             'Delete Invoice',
             'Add Attachment',
             'Delete Attachment',
-            'Change Payment Status',
+            'Show Status',
 
             'Add User',
             'Edit User',
@@ -59,6 +59,8 @@ class PermissionTableSeeder extends Seeder
             'Add Department',
             'Edit Department',
             'Delete Department',
+
+            'Notifications'
 
 
 

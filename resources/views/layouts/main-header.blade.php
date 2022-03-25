@@ -170,13 +170,18 @@
                         <div class="menu-header-content bg-primary text-right">
                             <div class="d-flex">
                                 <h6 class="dropdown-title mb-1 tx-15 text-white font-weight-semibold">Notifications</h6>
-                                <span class="badge badge-pill badge-warning mr-auto my-auto float-left">Mark All Read</span>
+                                <span class="badge badge-pill badge-warning mr-auto my-auto float-left"><a href="{{route('markAsRead')}}">Mark All Read</a></span>
                             </div>
-                            <p class="dropdown-title-text subtext mb-0 text-white op-6 pb-0 tx-12 ">You have {{auth()->user()->unreadNotifications->count()}} unread Notifications</p>
+                            <p class="dropdown-title-text subtext mb-0 text-white op-6 pb-0 tx-12 ">You have {{auth()->user()->unreadNotifications->count()}} unread Notifications
+                            <h6 style="color: yellow" id="notifications_count">
+                                {{ auth()->user()->unreadNotifications->count() }}
+                            </h6>
+                            </p>
                         </div>
+                        <div id="unreadNotifications">
                         @forelse(auth()->user()->unreadNotifications as $notification)
                         <div class="main-notification-list Notification-scroll">
-                            <a class="d-flex p-3 border-bottom" href="#">
+                            <a class="d-flex p-3 border-bottom" href="{{route('invoiceDetails.index', [$notification->data['id']])}}">
                                 <div class="notifyimg bg-pink">
                                     <i class="la la-file-alt text-white"></i>
                                 </div>
@@ -198,14 +203,13 @@
 
                                 <div class="mr-3">
 
-                                <h3 class="notification-subtext">No New Notifications</h3>
+                                    <h3 class="notification-subtext">No New Notifications</h3>
 
                                 </div>
                             </div>
                         </div>
                         @endforelse
-                        <div class="dropdown-footer">
-                            <a href="">VIEW ALL</a>
+                       
                         </div>
                     </div>
                 </div>

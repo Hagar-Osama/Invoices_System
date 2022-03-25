@@ -16,4 +16,9 @@ class AdminController extends Controller
     {
         return $this->adminInterface->index();
     }
+
+    public function markAsRead()
+    {
+        return $this->adminInterface->markAsRead();
+    }
 }

@@ -13,6 +13,8 @@ interface InvoiceAttachmentInterface {
 
     public function store($request);
 
+    public function update($request);
+
 
 
 }

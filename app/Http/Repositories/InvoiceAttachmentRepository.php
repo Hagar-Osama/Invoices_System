@@ -66,4 +66,24 @@ class InvoiceAttachmentRepository implements InvoiceAttachmentInterface
 
     }
 
+    public function update($request)
+    {
+        $attachment = $this->getInvoiceAttachmentById($request->invoice_id);
+        if ($request->hasFile('file')) {
+            $file = $request->file('file');
+            $fileName = $file->getClientOriginalName();
+            $oldFile = 'Attachments/'. $request->invoice_number. '/'. $attachment->file_name;
+            $this->uploadFiles($file, 'Attachments/'. $request->invoice_number, $fileName, $oldFile);
+            $attachment->update([
+
+                'file_name' => (isset($fileName)) ? $fileName : $oldFile,
+                'invoice_number' => $request->invoice_number,
+                'invoice_id'=>$request->invoice_id,
+                'created_by' => auth()->user()->name
+            ]);
+        }
+        return redirect()->back()->with('success', 'file Updated successfully');
+
+    }
+
 }

@@ -90,7 +90,7 @@ Edit User
                     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6">
                         <div class="form-group">
                             <strong> User Role</strong>
-                            {!! Form::select('roles_name[]', $roles,$userRole, array('class' => 'form-control','multiple'))
+                            {!! Form::select('roles_name[]', $roles,$userRole, array('class' => 'form-control','multiple')) !!}
                         </select>
                         </div>
                     </div>

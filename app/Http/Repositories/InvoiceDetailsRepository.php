@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Repositories;
 
 use App\Http\Interfaces\InvoiceDetailsInterface;
@@ -23,15 +24,18 @@ class InvoiceDetailsRepository implements InvoiceDetailsInterface
         $this->invoiceDetailsModel = $invoiceDetails;
         $this->invoiceAttachmentModel = $invoiceAttachment;
         $this->invoiceModel = $invoice;
-
     }
 
     public function index($invoiceId)
     {
+        $userUnreadNotifications = auth()->user()->unreadNotifications;
+        if ($userUnreadNotifications) {
+            $userUnreadNotifications->markAsRead();
+        }
         //we are using the invoice id to select the invoice details and invoice attachment and show it
         $invoice = $this->getInvoice($invoiceId);
         $invoiceDetails = $this->getAllInvoiceDetails($invoiceId);
-        $invoiceAttachments =$this->getAllInvoiceAttachment($invoiceId);
+        $invoiceAttachments = $this->getAllInvoiceAttachment($invoiceId);
         return view('invoices.invoiceDetails', compact('invoice', 'invoiceDetails', 'invoiceAttachments'));
     }
 }

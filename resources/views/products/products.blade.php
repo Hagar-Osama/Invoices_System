@@ -63,7 +63,7 @@ Products
                                 </td>
                                 <td>{{$product->description}}</td>
                                 <td>
-                                    <a class="modal-effect btn btn-sm btn-info" data-effect="effect-scale" data-id = "{{$product->id}}" data-product_name="{{$product->name}}" data-description="{{$product->description}}" data-department_name = "{{$product->department->name}}" data-toggle="modal" href="#exampleModal" title="Edit"><i class="las la-pen"></i></a>
+                                    <a class="modal-effect btn btn-sm btn-info" data-effect="effect-scale" data-pro_id = "{{$product->id}}" data-name="{{$product->name}}" data-description="{{$product->description}}" data-department_name = "{{$product->department->name}}" data-toggle="modal" data-target="#edit_product" title="Edit"><i class="las la-pen"></i></a>
 
                                     <a class="modal-effect btn btn-sm btn-danger" data-effect="effect-scale" data-id="{{$product->id}}" data-name="{{$product->name}}" data-toggle="modal" href="#modaldemo9" title="Delete"><i class="las la-trash"></i></a>
                                 </td>
@@ -141,7 +141,7 @@ Products
         </div>
     </div>
     <!-- Edit Modal -->
-    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="edit_product" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -156,8 +156,8 @@ Products
                         @method('PUT')
                         <div class="form-group">
                             <label for="exampleInputEmail1">Product Name</label>
-                            <input type="hidden" name="product_id" value="" id="id">
-                            <input type="text" class="form-control" name="name" id="name" placeholder="Enter Product Name">
+                            <input type="hidden" name="product_id" value="" id="pro_id">
+                            <input type="text" class="form-control" name="name" id="product_name" placeholder="Enter Product Name">
                         </div>
                         <div class="form-group">
                             <label for="exampleInputPassword1">Description</label>
@@ -165,10 +165,9 @@ Products
                         </div>
                         <div class="form-group">
                             <label for="exampleInputPassword1">Department Name</label>
-                            <select name="department_id" id="department_name" class="form-control"required >
-                            <option value=""></option>
+                            <select name="department_id" id="department_name" class="form-control" required >
                                 @foreach($departments as $department)
-                                <option value="{{$department->id}}" >{{$department->name}}</option>
+                                <option value="{{$department->name}}"{{$product->department_id == $department->id ? 'selected' : ""}} >{{$department->name}}</option>
                                 @endforeach
                             </select>
 
@@ -209,16 +208,16 @@ Products
 <script src="{{URL::asset('assets/js/table-data.js')}}"></script>
 <script src="{{URL::asset('assets/js/modal.js')}}"></script>
 <script>
-    $('#exampleModal').on('show.bs.modal', function(event) {
+    $('#edit_product').on('show.bs.modal', function(event) {
         //variables in the modal button
         var button = $(event.relatedTarget)
-        var id = button.data('id')
-        var product_name = button.data('product_name')
+        var pro_id = button.data('id')
+        var product_name = button.data('name')
         var department_name = button.data('department_name')
         var description = button.data('description')
         var modal = $(this)
-        modal.find('.modal-body #id').val(id);
-        modal.find('.modal-body #name').val(product_name);//the value of the variables in the buttons
+        modal.find('.modal-body #pro_id').val(pro_id);
+        modal.find('.modal-body #product_name').val(product_name);//the value of the variables in the buttons
         modal.find('.modal-body #department_name').val(department_name);//the value of the variables in the buttons
         modal.find('.modal-body #description').val(description);//the value of the variables in the buttons
 

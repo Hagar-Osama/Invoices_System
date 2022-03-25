@@ -41,7 +41,7 @@ class newInvoiceAdded extends Notification
      * @param  mixed  $notifiable
      * @return \Illuminate\Notifications\Messages\MailMessage
      */
-  
+
 
     /**
      * Get the array representation of the notification.

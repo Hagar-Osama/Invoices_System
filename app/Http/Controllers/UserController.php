@@ -9,10 +9,22 @@ use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
 {
+function __construct()
+{
+
+$this->middleware('permission:Show Role|Users Roles', ['only' => ['index']]);
+$this->middleware('permission:Add Role|Add User', ['only' => ['create','store']]);
+$this->middleware('permission:Edit Role|Edit User', ['only' => ['edit','update']]);
+$this->middleware('permission:Delete Role', ['only' => ['destroy']]);
+
+}
+
+
 /**
 * Display a listing of the resource.
 *
 * @return \Illuminate\Http\Response
+
 */
 public function index(Request $request)
 {

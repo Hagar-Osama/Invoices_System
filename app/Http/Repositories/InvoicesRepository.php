@@ -104,14 +104,14 @@ class InvoicesRepository implements InvoicesInterface
                 'created_by' => auth()->user()->name
 
             ]);
-
-            $user = User::first();
-            Notification::send($user, new AddedInvoice($invoice_id));
-
-            // $user = $this->userModel::first();
-            // $invoices = $this->invoiceModel::latest()->first();
-            // Notification::send($user, new newInvoiceAdded($invoices));
         }
+        $user = User::first();
+        Notification::send($user, new AddedInvoice($invoice_id));
+
+        // $user = $this->userModel::get(); //if u want to make the notification goes to the maker only use find(auth()->user()->id)
+        // $invoices = $this->invoiceModel::latest()->first();
+        // Notification::send($user, new newInvoiceAdded($invoices));
+
         return redirect(route('invoices.index'))->with('success', 'Invoice Has Been Added Successfully');
     }
 
@@ -240,7 +240,6 @@ class InvoicesRepository implements InvoicesInterface
 
         $invoices = $this->invoiceModel::where('status_value', 2)->get();
         return view('invoices.unpaidInvoices', compact('invoices'));
-
     }
 
     public function showPartlyPaidInvoices()
@@ -248,7 +247,6 @@ class InvoicesRepository implements InvoicesInterface
 
         $invoices = $this->invoiceModel::where('status_value', 3)->get();
         return view('invoices.partlyPaidInvoices', compact('invoices'));
-
     }
 
     public function archiveInvoices($request)
@@ -257,7 +255,6 @@ class InvoicesRepository implements InvoicesInterface
         $invoice->delete();
         session()->flash('archiveInvoice');
         return redirect(route('archivedInvoices.index'));
-
     }
 
     public function showInvoicePrintPage($invoiceId)
@@ -268,12 +265,6 @@ class InvoicesRepository implements InvoicesInterface
 
     public function export()
     {
-        return Excel::download(new InvoicesExport, 'invoices.xlsx' );
+        return Excel::download(new InvoicesExport, 'invoices.xlsx');
     }
-
-
-
-
-
-
 }

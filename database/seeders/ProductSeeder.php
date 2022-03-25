@@ -14,11 +14,28 @@ class ProductSeeder extends Seeder
      */
     public function run()
     {
-        // $products = ['Loaning', 'Installments'];
-        // foreach($products as $product) {
-        //     Product::create([
-        //         'name' => $product
-        //     ]);
-        // }
+        $products = [
+            [
+                'name' => 'Loaning',
+                'description'   => 'jgjgjkg',
+                'department_id' => 1
+
+            ],
+            [
+                'name' => 'Credit Cards',
+                'description'   => 'jgjgjkg',
+                'department_id' => 2
+
+            ],
+
+        ];
+        foreach ($products as $product) {
+            Product::create([
+                'name' => $product['name'],
+                'description' => $product['description'],
+                'department_id' => $product['department_id']
+
+            ]);
+        }
     }
 }

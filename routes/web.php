@@ -38,6 +38,9 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/', [AdminController::class, 'index'])->name('admin.index')->middleware('isActive');
     Route::post('/signout', [AuthController::class, 'signout'])->name('signout');
 
+    //Notifications Routes
+    Route::get('markAsRead', [AdminController::class, 'markAsRead'])->name('markAsRead');
+
     ///Invoices Routes///
     Route::get('/invoice', [InvoicesController::class, 'index'])->name('invoices.index');
     Route::get('/invoices/create', [InvoicesController::class, 'create'])->name('invoices.create');
@@ -66,6 +69,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('invoiceAttachment/{invoiceNumber}/{fileName}', [InvoiceAttachmentController::class, 'downloadFile'])->name('downloadFile');
     Route::delete('attachment/delete', [InvoiceAttachmentController::class, 'destroy'])->name('attachment.destroy');
     Route::post('invoiceAttachment/store', [InvoiceAttachmentController::class, 'store'])->name('attachment.store');
+    Route::put('invoiceAttachment/update', [InvoiceAttachmentController::class, 'update'])->name('attachment.update');
 
     //Reports Routes
     Route::get('reports', [ReportController::class, 'index'])->name('reports.index');
@@ -105,9 +109,9 @@ Route::group(['middleware' => ['auth']], function () {
 });
 Route::get('/signin', [AuthController::class, 'signinPage'])->name('signinpage');
 Route::post('/signin', [AuthController::class, 'signin'])->name('signin');
-Route::get('test', function () {
-    $invoice_id = $this->invoiceModel::latest()->first()->id;
-    $user = User::first();
-    Notification::send($user, new AddedInvoice($invoice_id));
-    return 'done';
-});
+// Route::get('test', function () {
+//     $user = User::get();//if u want to make the notification goes to the maker only use find(auth()->user()->id)
+//     $invoices = Invoice::latest()->first();
+//     Notification::send($user, new newInvoiceAdded($invoices));
+//     return 'done';
+// });

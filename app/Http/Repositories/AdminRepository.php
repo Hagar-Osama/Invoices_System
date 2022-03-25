@@ -63,4 +63,13 @@ class AdminRepository implements AdminInterface
             ->options([]);
         return view('dashboard', compact('chartjs', 'invoices'));
     }
+
+    public function markAsRead()
+    {
+        $userUnreadNotifications = auth()->user()->unreadNotifications;
+        if($userUnreadNotifications) {
+            $userUnreadNotifications->markAsRead();
+            return back();
+        }
+    }
 }

@@ -14,11 +14,25 @@ class DepartmentSeeder extends Seeder
      */
     public function run()
     {
-        // $departments = ['AL-Bank EL-ahly', 'CIB'];
-        // foreach ($departments as $department) {
-        //     Department::create([
-        //         'name' => $department
-        //     ]);
-        // }
+        $departments = [
+            [
+                'name' => 'AL-Bank EL-ahly',
+                'description' => 'hhghjgh',
+                'created_by' => 'owner'
+            ],
+            [
+                'name' => 'CIB',
+                'description' => 'hhghjgh',
+                'created_by' => 'owner'
+            ],
+
+        ];
+        foreach ($departments as $department) {
+            Department::create([
+                'name' => $department['name'],
+                'description' => $department['description'],
+                'created_by' => $department['created_by']
+            ]);
+        }
     }
 }
