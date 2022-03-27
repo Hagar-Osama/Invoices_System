@@ -4,11 +4,20 @@ namespace App\Observers;
 
 use App\Models\Invoice;
 use App\Models\User;
+use App\Notifications\AddedInvoice;
 use App\Notifications\newInvoiceAdded;
 use Illuminate\Support\Facades\Notification;
 
 class InvoicesObserver
 {
+    private $invoiceModel;
+    private $userModel;
+
+    public function __construct(Invoice $invoice, User $user)
+    {
+        $this->invoiceModel = $invoice;
+        $this->userModel = $user;
+    }
     /**
      * Handle the Invoice "created" event.
      *
@@ -17,9 +26,17 @@ class InvoicesObserver
      */
     public function created(Invoice $invoice)
     {
-        $user = User::get();//if u want to make the notification goes to the maker only use find(auth()->user()->id)
-        $invoices = Invoice::latest()->first();
+        $user = $this->userModel::get();//if u want to make the notification goes to the maker only use find(auth()->user()->id)
+        $invoices = $this->invoiceModel::latest()->first();
         Notification::send($user, new newInvoiceAdded($invoices));
+
+    }
+
+    public function creating(Invoice $invoice)
+    {
+        // $invoice_id = $this->invoiceModel::latest()->first()->id;
+        // $user = $this->userModel::first();
+        // Notification::send($user, new AddedInvoice($invoice_id));
     }
 
     /**

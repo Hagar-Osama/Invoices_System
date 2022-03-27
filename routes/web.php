@@ -13,11 +13,6 @@ use App\Http\Controllers\ReportController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
 use App\Http\Interfaces\InvoicesInterface;
-use App\Models\Invoice;
-use App\Models\User;
-use App\Notifications\AddedInvoice;
-use App\Notifications\newInvoiceAdded;
-use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -109,9 +104,4 @@ Route::group(['middleware' => ['auth']], function () {
 });
 Route::get('/signin', [AuthController::class, 'signinPage'])->name('signinpage');
 Route::post('/signin', [AuthController::class, 'signin'])->name('signin');
-// Route::get('test', function () {
-//     $user = User::get();//if u want to make the notification goes to the maker only use find(auth()->user()->id)
-//     $invoices = Invoice::latest()->first();
-//     Notification::send($user, new newInvoiceAdded($invoices));
-//     return 'done';
-// });
+

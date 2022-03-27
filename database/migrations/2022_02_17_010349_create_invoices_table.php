@@ -27,8 +27,8 @@ class CreateInvoicesTable extends Migration
             $table->string('tax_rate');
             $table->decimal('tax_value',8,2);
             $table->decimal('total',8,2);
-            $table->string('status', 50);
-            $table->integer('status_value');
+            $table->enum('status', ['paid','unpaid','partly paid'])->default('unpaid');
+            $table->integer('status_value')->default(2);
             $table->text('note')->nullable();
             $table->date('payment_date')->nullable();
             $table->softDeletes();

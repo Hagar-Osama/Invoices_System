@@ -71,8 +71,8 @@ class InvoicesRepository implements InvoicesInterface
             'tax_rate' => $request->tax_rate,
             'tax_value' => $request->tax_value,
             'total' => $request->total,
-            'status' => 'Unpaid', //default status of invoices is unpaid
-            'status_value' => 2, //2 referes to unpaid invoices
+            // 'status' => 'Unpaid', //default status of invoices is unpaid
+            // 'status_value' => 2, //2 referes to unpaid invoices
             'note' => $request->note,
         ]);
 
@@ -84,8 +84,8 @@ class InvoicesRepository implements InvoicesInterface
             'invoice_number' => $request->invoice_number,
             'product' => $request->product,
             'department' => $request->department_id,
-            'status' => 'Unpaid', //default status of invoices is unpaid
-            'status_value' => 2, //2 referes to unpaid invoices
+            // 'status' => 'Unpaid', //default status of invoices is unpaid
+            // 'status_value' => 2, //2 referes to unpaid invoices
             'note' => $request->note,
             'user' => auth()->user()->name
         ]);
@@ -105,12 +105,6 @@ class InvoicesRepository implements InvoicesInterface
 
             ]);
         }
-        $user = User::first();
-        Notification::send($user, new AddedInvoice($invoice_id));
-
-        // $user = $this->userModel::get(); //if u want to make the notification goes to the maker only use find(auth()->user()->id)
-        // $invoices = $this->invoiceModel::latest()->first();
-        // Notification::send($user, new newInvoiceAdded($invoices));
 
         return redirect(route('invoices.index'))->with('success', 'Invoice Has Been Added Successfully');
     }
