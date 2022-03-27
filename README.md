@@ -10,4 +10,12 @@ the command php artisan migrate:
 
 2- then run the command php artisan db:seed to add the data from database seeder.
 
+packages installed in this project:
+
+1-maatwebsite/excel.
+
+2- spatie/larvel-permission.
+
+3- fx3costa/laravelchartjs
+
 

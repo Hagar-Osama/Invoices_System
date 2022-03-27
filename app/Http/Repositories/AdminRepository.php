@@ -20,9 +20,23 @@ class AdminRepository implements AdminInterface
         $unpaidInvoicesCount = $this->invoiceModel::where('status_value', 2)->count();
         $partialyPaidInvoicesCount = $this->invoiceModel::where('status_value', 3)->count();
 
-        $paidInvoicesPercentage = round($paidInvoicesCount / $invoicesCount * 100);
-        $unpaidInvoicesPercentage = round($unpaidInvoicesCount / $invoicesCount * 100);
-        $partialyPaidInvoicesPercentage = round($partialyPaidInvoicesCount / $invoicesCount * 100);
+        if($paidInvoicesCount == 0) {
+            $paidInvoicesPercentage = 0;
+        }else{
+            $paidInvoicesPercentage = round($paidInvoicesCount / $invoicesCount * 100);
+        }
+
+        if($unpaidInvoicesCount == 0) {
+            $unpaidInvoicesPercentage = 0;
+        }else {
+            $unpaidInvoicesPercentage = round($unpaidInvoicesCount / $invoicesCount * 100);
+        }
+
+        if($partialyPaidInvoicesCount == 0) {
+            $partialyPaidInvoicesPercentage = 0;
+        }else {
+            $partialyPaidInvoicesPercentage = round($partialyPaidInvoicesCount / $invoicesCount * 100);
+        }
 
         $invoices = app()->chartjs
             ->name('lineChartTest')
@@ -61,7 +75,14 @@ class AdminRepository implements AdminInterface
                 ]
             ])
             ->options([]);
-        return view('dashboard', compact('chartjs', 'invoices'));
+            // if(view()->exists($id)){
+            //     return view($id, compact('chartjs', 'invoices', 'unpaidInvoicesPercentage', 'paidInvoicesPercentage','partialyPaidInvoicesPercentage'));
+            // }
+            // else
+            // {
+            //     return view('404');
+            // }
+        return view('dashboard', compact('chartjs', 'invoices', 'unpaidInvoicesPercentage', 'paidInvoicesPercentage','partialyPaidInvoicesPercentage'));
     }
 
     public function markAsRead()
