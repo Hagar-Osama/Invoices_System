@@ -3,8 +3,8 @@ It helps the client to offer their services to the users and collecting invoices
 
 you can run this application as a normal php/laravel application.
 
-All you have to do to run the project you can either import the database that is included in the project or run 
-the command php artisan migrate:
+All you have to do to run the project: you can either import the database that is included in the project or run 
+the command php artisan migrate then:
 
 1- go to createAdminUserSeeder to know the email and password.
 
